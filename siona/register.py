@@ -67,8 +67,9 @@ def classify(statement, webs, grounder, *, k=3, dual_floor=0.18, balance_margin=
                 "note": "flat coupling; needs the Class-L spectral measure (R-RBS-LM-250) or the attestation anchor"}
     narr = max((coh[r] for r in coh if DISCRETE.get(r, 0) & NARRATIVE), default=0.0)   # narrative-side coherence
     att = max((coh[r] for r in coh if DISCRETE.get(r, 0) & ATTESTED), default=0.0)     # attested-side coherence
-    # EMERGENCE: a parable couples to BOTH sides, balanced — truth through metaphor (found, not declared)
-    if narr >= dual_floor and att >= dual_floor and abs(narr - att) < balance_margin:
+    # EMERGENCE: a parable couples to BOTH sides, balanced — truth through metaphor (found, not declared).
+    # balance = (max − min), the Class-K pin-slot magnitude of the gap (never Python abs() in a cascade).
+    if narr >= dual_floor and att >= dual_floor and (max(narr, att) - min(narr, att)) < balance_margin:
         graded = round(min(narr, att) / max(narr, att, 1e-9), 2)     # graded truth-content balance (the 0x64 level)
         return {"register": "parable", "emergent": True, "graded": graded, "coherence": coh}
     ranked = sorted(coh.items(), key=lambda kv: kv[1], reverse=True)
