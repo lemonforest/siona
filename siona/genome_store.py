@@ -99,7 +99,7 @@ def express(strand, cell_state, *, the_one):
     ``cell_state`` gates ON → ``{label: flat Klein-4 kernel}``. This is the op⊗operand theorem (the genome's own
     docstring): SAME genome (all-possible), DIFFERENT ``cell_state`` (epigenetic context) → DIFFERENT expressed
     subset (the STORY, or the active CONTEXT). A pure READ — the genome is never mutated. ``cell_state`` is a
-    non-negative int (each bit a present condition; Class-I, no float, never ``abs()``)."""
+    non-negative int (each bit a present condition; Class-I integers, no float; sign stays Class-K)."""
     return {lbl: _flatten(lv) for lbl, lv in _G.gene_express(strand, the_one, cell_state)}
 
 
