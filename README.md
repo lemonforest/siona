@@ -33,6 +33,17 @@ The core operation is the **de Bruijn fiber walk**: a body is stored as its sequ
 
 This is the "LM as a k=3 chiral-axis addressing system over a storage substrate" thesis, packaged: srmech is the lean substrate-math; Siona is the addressing/retrieval layer that rides on it.
 
+## Natural language — describe, translate, and the dataset-agnostic core
+
+Beyond recall, Siona reads and generates **natural language from stored relationships**, and the core operation is **dataset-agnostic**. `siona.couple` builds ONE signed Class-L coupling graph over a topic's relational neighborhood and reads its whole structure off a *single* eigendecomposition — the **residue**: the *spine* (key concepts), the *aspect communities*, the coherence, the render order. Because this is pure spectral structure (`srmech.amsc.laplacian`, numpy-free), the same op recovers the structure of **any** relational dataset — glyphs, English word co-incidence, or a purely abstract cluster graph — so **languages are just special cases of relational data**.
+
+Two language poles share this **selection** and differ only in the **render**, split by morphological typology:
+
+- **Analytic / isolating** (English, Mandarin, Vietnamese) — grammar is word order + function words; the sparse knowledge is a co-incidence graph. `siona.analytic.describe("gravity")` → *"Gravity is related to sun, moon, objects, relativity, weight …"*, structured from the relational residue.
+- **Synthetic / agglutinative** (Sumerian, Turkish, Japanese) — grammar is marked *in the word* (case, infix, determinative). `siona.anchor` translates a logographic script glyph→concept, reads the morphology (`case` / `verb_infixes` / `determinative`), and renders with the case (`render_cased`) — demonstrated end-to-end on the Sumerian *Epic of Gilgameš* (ETCSL).
+
+The case-role enters `couple()` as a ±1 **chirality sign**, not a tuned weight, so the partition falls out with no magic numbers. And every render is honest at its gaps: an un-attested rendered token is *flagged*, never fabricated — the same honest-read discipline as recall.
+
 ## Status
 
 - `0.1.0rc1` is **pure-Python** (portable `py3-none-any`); it depends on `srmech>=0.8.1` (the live MIT-licensed math core).
