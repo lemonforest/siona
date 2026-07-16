@@ -33,17 +33,6 @@ The core operation is the **de Bruijn fiber walk**: a body is stored as its sequ
 
 This is the "LM as a k=3 chiral-axis addressing system over a storage substrate" thesis, packaged: srmech is the lean substrate-math; Siona is the addressing/retrieval layer that rides on it.
 
-## Natural language — describe, translate, and the dataset-agnostic core
-
-Beyond recall, Siona reads and generates **natural language from stored relationships**, and the core operation is **dataset-agnostic**. `siona.couple` builds ONE signed Class-L coupling graph over a topic's relational neighborhood and reads its whole structure off a *single* eigendecomposition — the **residue**: the *spine* (key concepts), the *aspect communities*, the coherence, the render order. Because this is pure spectral structure (`srmech.amsc.laplacian`, numpy-free), the same op recovers the structure of **any** relational dataset — glyphs, English word co-incidence, or a purely abstract cluster graph — so **languages are just special cases of relational data**.
-
-Two language poles share this **selection** and differ only in the **render**, split by morphological typology:
-
-- **Analytic / isolating** (English, Mandarin, Vietnamese) — grammar is word order + function words; the sparse knowledge is a co-incidence graph. `siona.analytic.describe("gravity")` → *"Gravity is related to sun, moon, objects, relativity, weight …"*, structured from the relational residue.
-- **Synthetic / agglutinative** (Sumerian, Turkish, Japanese) — grammar is marked *in the word* (case, infix, determinative). `siona.anchor` translates a logographic script glyph→concept, reads the morphology (`case` / `verb_infixes` / `determinative`), and renders with the case (`render_cased`) — demonstrated end-to-end on the Sumerian *Epic of Gilgameš* (ETCSL).
-
-The case-role enters `couple()` as a ±1 **chirality sign**, not a tuned weight, so the partition falls out with no magic numbers. And every render is honest at its gaps: an un-attested rendered token is *flagged*, never fabricated — the same honest-read discipline as recall.
-
 ## Status
 
 - `0.1.0rc1` is **pure-Python** (portable `py3-none-any`); it depends on `srmech>=0.8.1` (the live MIT-licensed math core).
@@ -54,55 +43,6 @@ The case-role enters `couple()` as a ±1 **chirality sign**, not a tuned weight,
 - Source / issues: <https://github.com/lemonforest/mlehaptics>
 
 License: MIT (same as `srmech`).
-
-## Design decisions (ADRs)
-
-The load-bearing architecture decisions live as small, scoped **Architecture
-Decision Records** in [`docs/adr/`](docs/adr/) — one decision per file, indexed in
-[`docs/adr/README.md`](docs/adr/README.md). The current tranche captures the
-**genome-native storage** design: how Siona's knowledge collapses into a
-biology-native lichen of genomes.
-
-| ADR | Decision |
-|-----|----------|
-| [0001](docs/adr/0001-knowledge-is-genome-native-not-plaintext.md) | Knowledge is genome-native, not plaintext (an NDJSON of text is not "encoded") |
-| [0002](docs/adr/0002-one-laplacian-two-reads-op-operand-responsion.md) | One Laplacian, two reads — `op(x)operand(x)responsion` (k=3): edges = relational ("what it's like"), responsion/walk = the ordered fiber ("what it IS") |
-| [0003](docs/adr/0003-no-plaintext-toc-content-addressed-index.md) | No plaintext table of contents — the index is content-addressed |
-| [0004](docs/adr/0004-dna-plus-g4-dna-region-dependent-encoding.md) | DNA + G4 DNA — region-dependent encoding (Laplacian backbone + Klein-4 chirality) |
-| [0005](docs/adr/0005-byte-glyph-no-doctoring-punctuation-is-a-sublanguage.md) | Byte/glyph, no doctoring — punctuation is a sublanguage, kept byte-exact |
-| [0006](docs/adr/0006-the-lichen-set-of-genomes-coexpressed-on-demand.md) | The lichen — a *set* of genomes co-expressed on demand (melange) |
-| [0007](docs/adr/0007-output-is-sentences-attested-and-cited.md) | Output is sentences, attested and cited |
-| [0008](docs/adr/0008-grounded-intent-over-positional-router.md) | Grounded-intent over positional router (*Proposed*) |
-
-Add a new ADR for every decision that would otherwise have to be re-derived; keep
-them small and scoped (never one monolithic design doc). This README plus `docs/adr/`
-are the siona **single source of truth** — they exist so the design survives across
-working sessions without re-derivation.
-
-## Repository model — SSoT + release flow
-
-This repository is the **single source of truth for the `siona` package** — its
-code, its ADRs, and this README.
-
-- **`main`** — the release/tag branch. Docs (README, ADRs) land here directly; the
-  **release package reaches `main` only when a release-candidate is promoted**, and
-  that promotion is when the version tag is cut.
-- **`package-home-0.1.0rcN`** — the release-candidate branch. It **carries the
-  release package** and is where package work happens; it gets **tagged when it hits
-  `main`**. Every TestPyPI rc is its own PR; a clean (non-rc) tag promotes to PyPI
-  (TestPyPI-rc-first discipline).
-- **Research boundary.** Framework *findings* — the spectral-research arc, the
-  `FXXXX` notes, the notebooks — land in the
-  **[mlehaptics](https://github.com/lemonforest/mlehaptics)** repo on the rolling
-  research branch (PR #687), **not here**. This repo tracks the *package*; mlehaptics
-  tracks the *research*. An ADR here may *reference* a finding by number, but the
-  finding itself lives in mlehaptics.
-
-**Open question — the srmech dependency shape.** It is not yet decided whether
-`siona` ships as a package that **pulls `srmech` as an install dependency** (the
-current `pyproject` assumption) or whether `srmech` must be **vendored / built into**
-siona. This is unresolved, and is recorded here so it is not silently treated as
-settled; it will land as its own ADR once decided.
 
 ## The interactive session (`siona` at your shell)
 

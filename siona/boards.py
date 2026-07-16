@@ -29,7 +29,11 @@ class Board:
     interrogatives: frozenset    # intent-operators stripped from GROUNDING queries (handlers still get them)
     strip: frozenset             # operator/filler tokens stripped from handler text arguments
     kernel_ops: dict             # declared linear-map kernel slots: keys kernel/is/times/over/plus -> board words
-    homographs: dict = None      # merged boards: verb -> ((board_name, tool), ...) -- SUPERPOSED senses (F1018)
+    homographs: dict = None
+    quantity_words: frozenset = frozenset()  # 'how MANY days' -- the unit follows the quantity word
+    numwords: frozenset = frozenset()        # closed number/ordinal vocabulary (attested per board)
+    comparison_words: frozenset = frozenset()  # 'which has MORE days' -- multi-note synthesis marker
+    source_markers: frozenset = frozenset()    # 'PER mfo ...' -- source-qualified sense selection      # merged boards: verb -> ((board_name, tool), ...) -- SUPERPOSED senses (F1018)
     parents: tuple = ()          # merged boards: the parent boards; their operator vocabs drive the rung vote
     politeness: frozenset = frozenset()  # PARAPHRASE frames: politeness/hedge prefix tokens, stripped before routing
 
@@ -48,15 +52,28 @@ ENGLISH = Board(
     define_frames=(("what", "is"), ("what", "are"), ("define",), ("describe",),
                    ("meaning", "of"), ("tell", "me", "about"), ("who", "is"),
                    ("who", "was"), ("explain",)),
-    self_verbs=frozenset({"remember", "recall", "forget", "ingest", "save", "show"}),
+    self_verbs=frozenset({"remember", "recall", "forget", "ingest", "save", "show",
+                          "load", "acquire", "learn", "pack", "purge", "study"}),
     politeness=frozenset({"please", "could", "would", "can", "you", "kindly", "hey"}),
+    quantity_words=frozenset({"many", "much"}),
+    comparison_words=frozenset({"more", "fewer", "less", "most", "fewest",
+                                "longer", "shorter", "larger", "smaller", "bigger"}),
+    source_markers=frozenset({"per"}),
+    numwords=frozenset({  # the English closed number/ordinal class (linguistic, not tuned)
+        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+        "eleven", "twelve", "twenty", "thirty", "forty", "fifty", "hundred", "thousand",
+        "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth",
+        "ninth", "tenth", "eleventh", "twelfth"}),
     verb_tools={"remember": "siona.memory.remember", "ingest": "siona.memory.remember",
                 "save": "siona.memory.remember", "recall": "siona.memory.recall",
-                "forget": "siona.memory.forget", "show": "siona.memory.show"},
+                "forget": "siona.memory.forget", "show": "siona.memory.show",
+                "load": "siona.knowledge.load", "acquire": "siona.knowledge.acquire",
+                "learn": "siona.knowledge.acquire", "pack": "siona.knowledge.pack", "purge": "siona.memory.purge",
+                "study": "siona.knowledge.study"},
     imperatives=frozenset({"list", "compute", "calculate", "run", "apply", "register",
                            "enumerate", "build", "generate", "encode", "decode",
                            "measure", "verify", "hash"}),
-    interrogatives=frozenset({"what", "who", "when", "where", "how", "why"}),
+    interrogatives=frozenset({"what", "who", "when", "where", "how", "why", "which", "whose"}),
     # NOTE: 'the' is NOT stripped — remembered notes store the FULL text (no doctoring the
     # SSoT, F982; high-frequency tokens are the continuation walk's curvature, F849/F853).
     strip=frozenset({"siona", "remember", "recall", "forget", "ingest", "save", "show",
